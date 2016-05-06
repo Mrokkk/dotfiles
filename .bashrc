@@ -37,7 +37,7 @@ if ! shopt -oq posix; then
 	fi
 fi
 
-if [ "$(id -u)" = "0" ]; then
+if [ $EUID = 0 ]; then
 	USER_COLOR=$RED
 else
 	USER_COLOR=$GREEN
