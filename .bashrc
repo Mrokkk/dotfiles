@@ -43,9 +43,19 @@ else
 	USER_COLOR=$GREEN
 fi
 
-__PROMPT="${BOLD}${USER_COLOR}\u@\H${RESET}:${BLUE}[\w]${RESET}"
-__PROMPT_END='`if [ $? = 0 ]; then echo "\[$(tput setaf 2)\] \$ \[$(tput sgr0)\]";'
-__PROMPT_END+='else echo "\[$(tput setaf 1)\] \$ \[$(tput sgr0)\]"; fi`'
+if [[ $(tty) == *"tty"* ]]; then
+	PWD_COLOR=$CYAN
+else
+	PWD_COLOR=$BLUE
+fi
+
+__PROMPT="$BOLD$USER_COLOR\u@\H$RESET:$PWD_COLOR[\w]$RESET"
+
+if [ $? = 0 ]; then
+	__PROMPT_END="$GREEN \$ $RESET"
+else
+	__PROMPT_END="$RED \$ $RESET"
+fi
 
 if [ -f $HOME/.git-prompt ]; then
 	. $HOME/.git-prompt
