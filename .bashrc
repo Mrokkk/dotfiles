@@ -16,17 +16,29 @@ RESET="\[$(tput sgr0)\]"
 
 JAVA_BIN=/usr/lib64/java/bin
 TOOLCHAINS_DIR=$HOME/toolchains
+LD_LIB=$HOME/toolchains/x86-linux-gnu/lib64
+CLOC_DIR=/usr/opt/cloc
 
 if [ -d $JAVA_BIN ]; then
 	PATH=$PATH:$JAVA_BIN
 fi
 
 if [ -d $TOOLCHAINS_DIR ]; then
-	export PATH=$PATH:`ls -d $TOOLCHAINS_DIR/*/ | xargs printf ":%sbin"`
-	export LD_LIBRARY_PATH=`ls -d $TOOLCHAINS_DIR/*/ | xargs printf ":%slib64"`
+	PATH=$PATH:`ls -d $TOOLCHAINS_DIR/*/ | xargs printf ":%sbin"`
 fi
 
+if [ -d $CLOC_DIR ]; then
+	PATH=$PATH:$CLOC_DIR
+fi
+
+if [ -d $LD_LIB ]; then
+	LD_LIBRARY_PATH=$LD_LIB
+fi
+
+export LD_LIBRARY_PATH
+export PATH
 export EDITOR=vim
+export LESSCHARSET="utf-8"
 export HISTCONTROL=ignoredups
 
 if ! shopt -oq posix; then
@@ -51,11 +63,7 @@ fi
 
 __PROMPT="$BOLD$USER_COLOR\u@\H$RESET:$PWD_COLOR[\w]$RESET"
 
-if [ $? = 0 ]; then
-	__PROMPT_END="$GREEN \$ $RESET"
-else
-	__PROMPT_END="$RED \$ $RESET"
-fi
+__PROMPT_END=" \$ "
 
 if [ -f $HOME/.git-prompt ]; then
 	. $HOME/.git-prompt
@@ -68,6 +76,14 @@ else
 	PS1="$__PROMPT$__PROMPT_END"
 	PROMPT_COMMAND=
 fi
+
+hex(){
+	printf "0x%x\n" $1
+}
+
+dec(){
+	printf "%d\n" $1
+}
 
 # Aliases
 alias ls="ls --color=always"
