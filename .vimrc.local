@@ -2,10 +2,16 @@ map <F8> :tabn<CR>
 map <F7> :tabp<CR>
 map <F6> mzgg=G`z
 map <space> viw
+map <F4> :setlocal spell! spelllang=en_us<CR>
 
+Bundle 'aufgang001/vim-nerdtree_plugin_open'
 Bundle 'Konfekt/FastFold'
 Bundle 'Konfekt/FoldText'
+Bundle 'Rip-Rip/clang_complete'
+Plugin 'Yggdroot/indentLine'
+UnBundle "nathanaelkane/vim-indent-guides"
 
+let g:nerdtree_plugin_open_cmd = 'xdg-open'
 let NERDTreeQuitOnOpen=0
 
 let g:airline_powerline_fonts = 1
@@ -24,8 +30,28 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.space = "\ua0"
 
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#show_splits = 0
+
+filetype plugin indent on
 set laststatus=2
 
 let g:airline_theme = 'simple'
 let timeoutlen = 0
 set noshowmode
+
+colorscheme railscasts
+
+let g:indentLine_color_term = 242 " (default: 4)
+let g:indentLine_color_dark = 1 " (default: 2)
+let g:indentLine_char = "\uE0A3"
+
+let g:clang_library_path = '/lib64/libclang.so'
+let g:clang_complete_auto = 1
+let g:clang_auto_select = 1
+
+autocmd VimEnter * set completefunc=ClangComplete
+autocmd VimEnter * set nospell
+let g:neocomplete#enable_at_startup = 0
