@@ -1,7 +1,3 @@
-#
-# ~/.bashrc
-#
-
 [[ $- != *i* ]] && return
 
 export PAGER="less"

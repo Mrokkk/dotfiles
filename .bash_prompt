@@ -41,3 +41,5 @@ else
     PS1="$__PROMPT$__PROMPT_END"
     PROMPT_COMMAND=
 fi
+
+# vim: filetype=sh

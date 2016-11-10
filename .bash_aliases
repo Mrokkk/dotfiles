@@ -10,3 +10,4 @@ alias f="find / -name 2>/dev/null"
 alias f.="find . -name 2>/dev/null"
 alias cdmedia="cd /run/media/maciek"
 
+# vim: filetype=sh
