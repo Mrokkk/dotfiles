@@ -4,9 +4,15 @@ map <F6> mzgg=G`z
 map <space> viw
 map <F4> :setlocal spell! spelllang=en_us<CR>
 nmap <F9> :TagbarToggle<CR>
+map <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc
+
+" replace selected pattern
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
 set pastetoggle=<F10>
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set list
+set ttyfast
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -37,7 +43,6 @@ Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'tpope/vim-surround'
 
 set shell=/bin/bash
 syntax on
@@ -116,11 +121,13 @@ let g:indentLine_color_dark = 1 " (default: 2)
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_asm_config_file = '.syntastic_asm_config'
 let g:syntastic_python_python_exec = '/usr/bin/python3'
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes':   [],'passive_filetypes': [] }
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+let g:ycm_server_python_interpreter = "/usr/bin/python3"
 set completeopt-=preview
 
 " turn off spell checking
