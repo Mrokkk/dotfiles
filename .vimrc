@@ -5,6 +5,9 @@ map <space> viw
 map <F4> :setlocal spell! spelllang=en_us<CR>
 nmap <F9> :TagbarToggle<CR>
 map <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc
+map <C-\> :s/$/;/gc<CR>y
+
+let mapleader = ","
 
 " replace selected pattern
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
@@ -43,6 +46,11 @@ Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/nerdcommenter'
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'tomtom/tlib_vim'
+Bundle 'SirVer/ultisnips'
+Bundle 'honza/vim-snippets'
+
 
 set shell=/bin/bash
 syntax on
@@ -103,7 +111,7 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline_theme = 'simple'
 
 " remove latency on switching though modes
-set timeoutlen=0 ttimeoutlen=0
+set timeoutlen=300 ttimeoutlen=0
 
 " use indentation of previous line
 set autoindent
@@ -129,6 +137,9 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes':   [],'passiv
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 let g:ycm_server_python_interpreter = "/usr/bin/python3"
 set completeopt-=preview
+
+nnoremap <Leader>g :YcmCompleter GoTo<CR>
+nnoremap <Leader>a :YcmCompleter GoTo<CR>
 
 " turn off spell checking
 autocmd VimEnter * set nospell
@@ -173,4 +184,8 @@ if has('persistent_undo')
     let &undodir = myUndoDir
     set undofile
 endif
+
+let g:UltiSnipsExpandTrigger="<c-a>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
