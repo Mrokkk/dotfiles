@@ -14,7 +14,7 @@ BASE_FLAGS = [
         '-fexceptions',
         '-ferror-limit=10000',
         '-DNDEBUG',
-        '-std=c++11',
+        '-std=c++1z',
         '-xc++',
         '-I/usr/lib/',
         '-I/usr/include/'
@@ -49,7 +49,6 @@ def GetCompilationInfoForFile(database, filename):
                 compilation_info = database.GetCompilationInfoForFile(replacement_file)
                 if compilation_info.compiler_flags_:
                     return compilation_info
-        return None
     return database.GetCompilationInfoForFile(filename)
 
 def FindNearest(path, target, build_folder):
@@ -98,27 +97,6 @@ def MakeRelativePathsInFlagsAbsolute(flags, working_directory):
             new_flags.append(new_flag)
     return new_flags
 
-
-def FlagsForClangComplete(root):
-    try:
-        clang_complete_path = FindNearest(root, '.clang_complete')
-        clang_complete_flags = open(clang_complete_path, 'r').read().splitlines()
-        return clang_complete_flags
-    except:
-        return None
-
-def FlagsForInclude(root):
-    try:
-        include_path = FindNearest(root, 'include')
-        flags = []
-        for dirroot, dirnames, filenames in os.walk(include_path):
-            for dir_path in dirnames:
-                real_path = os.path.join(dirroot, dir_path)
-                flags = flags + ["-I" + real_path]
-        return flags
-    except:
-        return None
-
 def FlagsForCompilationDatabase(root, filename):
     try:
         # Last argument of next function is the name of the build folder for
@@ -147,12 +125,6 @@ def FlagsForFile(filename):
         final_flags = compilation_db_flags
     else:
         final_flags = BASE_FLAGS
-        clang_flags = FlagsForClangComplete(root)
-        if clang_flags:
-            final_flags = final_flags + clang_flags
-        include_flags = FlagsForInclude(root)
-        if include_flags:
-            final_flags = final_flags + include_flags
     return {
             'flags': final_flags,
             'do_cache': True
