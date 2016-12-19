@@ -36,19 +36,20 @@ HEADER_EXTENSIONS = [
         '.hh'
         ]
 
+def FindFirstSourceFile(filename):
+    root = os.path.dirname(filename);
+    for file in os.listdir(root):
+        for extension in SOURCE_EXTENSIONS:
+            if file.endswith(extension):
+                return root + '/' + file
+
 def IsHeaderFile(filename):
     extension = os.path.splitext(filename)[1]
     return extension in HEADER_EXTENSIONS
 
 def GetCompilationInfoForFile(database, filename):
     if IsHeaderFile(filename):
-        basename = os.path.splitext(filename)[0]
-        for extension in SOURCE_EXTENSIONS:
-            replacement_file = basename + extension
-            if os.path.exists(replacement_file):
-                compilation_info = database.GetCompilationInfoForFile(replacement_file)
-                if compilation_info.compiler_flags_:
-                    return compilation_info
+        return database.GetCompilationInfoForFile(FindFirstSourceFile(filename))
     return database.GetCompilationInfoForFile(filename)
 
 def FindNearest(path, target, build_folder):
@@ -112,9 +113,7 @@ def FlagsForCompilationDatabase(root, filename):
         if not compilation_info:
             logging.info("No compilation info for " + filename + " in compilation database")
             return None
-        return MakeRelativePathsInFlagsAbsolute(
-                compilation_info.compiler_flags_,
-                compilation_info.compiler_working_dir_)
+        return MakeRelativePathsInFlagsAbsolute(compilation_info.compiler_flags_, compilation_info.compiler_working_dir_)
     except:
         return None
 
@@ -129,3 +128,4 @@ def FlagsForFile(filename):
             'flags': final_flags,
             'do_cache': True
             }
+
