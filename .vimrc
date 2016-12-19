@@ -23,14 +23,9 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.vim/bundle/tagbar
+
 call vundle#begin()
-
 Plugin 'VundleVim/Vundle.vim'
-
-call vundle#end()            " required
-filetype plugin indent on    " required
-filetype indent on
-
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'aufgang001/vim-nerdtree_plugin_open'
@@ -50,7 +45,10 @@ Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
 Bundle 'SirVer/ultisnips'
 Bundle 'honza/vim-snippets'
+call vundle#end()            " required
 
+filetype plugin indent on    " required
+filetype indent on
 
 set shell=/bin/bash
 syntax on
