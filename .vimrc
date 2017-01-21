@@ -1,18 +1,18 @@
-map <F8> :tabn<CR>
-map <F7> :tabp<CR>
-map <F6> mzgg=G`z
-map <space> viw
-map <F4> :setlocal spell! spelllang=en_us<CR>
-nmap <F9> :TagbarToggle<CR>
-map <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc
-map <C-\> :s/$/;/gc<CR>y
-
 let mapleader = ","
+nmap <Leader>t :tabnew<CR>
+nmap <Leader>l :tabn<CR>
+nmap <Leader>h :tabp<CR>
+nmap <F8> :tabn<CR>
+nmap <F7> :tabp<CR>
+nmap <Leader>q :bd<CR>
+nmap <space> viw
 
-" replace selected pattern
+nmap <F4> :setlocal spell! spelllang=en_us<CR>
+nmap <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc<CR>
+nmap <C-\> :s/$/;/gc<CR>y
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
-set pastetoggle=<F10>
+set pastetoggle=<Leader>p
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set list
 set ttyfast
@@ -22,13 +22,11 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=~/.vim/bundle/tagbar
 
 call vundle#begin()
+
 Plugin 'VundleVim/Vundle.vim'
 Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'aufgang001/vim-nerdtree_plugin_open'
 Bundle 'Konfekt/FastFold'
 Bundle 'Konfekt/FoldText'
 Bundle 'Yggdroot/indentLine'
@@ -37,7 +35,6 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'vim-airline/vim-airline'
 Bundle 'jpo/vim-railscasts-theme'
 Bundle 'vim-airline/vim-airline-themes'
-Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/nerdcommenter'
@@ -45,6 +42,10 @@ Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
 Bundle 'SirVer/ultisnips'
 Bundle 'honza/vim-snippets'
+Bundle 'mileszs/ack.vim'
+Bundle 'edkolev/tmuxline.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
+
 call vundle#end()            " required
 
 filetype plugin indent on    " required
@@ -54,10 +55,9 @@ set shell=/bin/bash
 syntax on
 
 set backup
+set noswapfile
 call system('mkdir -p ~/.vim/backup')
-call system('mkdir -p ~/.vim/swap')
 set backupdir=~/.vim/backup,.
-set directory=~/.vim/swap,.
 
 let backup_var=strftime("%y%m%d.%Hh%M")
 let backup_var="set backupext=_". backup_var
@@ -73,14 +73,15 @@ set scrolloff=3                 " Minimum lines to keep above and below cursov
 set nowrap
 set cursorline
 set softtabstop=4
-
-let g:nerdtree_plugin_open_cmd = 'xdg-open'
+set laststatus=2
 
 let NERDTreeShowHidden = 0
 let NERDTreeQuitOnOpen = 0
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+nmap <Leader>e :NERDTreeToggle<CR>
+nmap <Leader>f :NERDTreeFind<CR>
 
 let g:airline_powerline_fonts = 1
 set t_Co=256
@@ -125,51 +126,20 @@ colorscheme railscasts
 let g:indentLine_color_term = 242 " (default: 4)
 let g:indentLine_color_dark = 1 " (default: 2)
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_asm_config_file = '.syntastic_asm_config'
-let g:syntastic_python_python_exec = '/usr/bin/python3'
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes':   [],'passive_filetypes': [] }
-
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 let g:ycm_server_python_interpreter = "/usr/bin/python3"
 set completeopt-=preview
 
 nnoremap <Leader>g :YcmCompleter GoTo<CR>
-nnoremap <Leader>a :YcmCompleter GoTo<CR>
 
 " turn off spell checking
 autocmd VimEnter * set nospell
-
-" always start with NERDTree open
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
-autocmd BufWinEnter * silent NERDTreeMirror
-
-" when changing tabs go to the file in NERDTree
-autocmd BufEnter * if &modifiable | NERDTreeFind | wincmd p | endif
 
 " let g:AutoPairsMapCR = 0
 
 " don't show tildes
 hi NonText ctermfg=bg
 
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-function! s:CloseIfOnlyNerdTreeLeft()
-    if exists("t:NERDTreeBufName")
-        if bufwinnr(t:NERDTreeBufName) != -1
-            if winnr("$") == 1
-                q
-            endif
-        endif
-    endif
-endfunction
-
-" Put plugins and dictionaries in this dir (also on Windows)
 let vimDir = '$HOME/.vim'
 let &runtimepath.=','.vimDir
 
@@ -186,4 +156,14 @@ endif
 let g:UltiSnipsExpandTrigger="<c-a>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+let g:tmuxline_preset = {
+        \ 'a': '#S',
+        \ 'b': '#F',
+        \ 'c': '#W',
+        \ 'win': ['#I', '#W'],
+        \ 'cwin': ['#I', '#W'],
+        \ 'x': '#(cat /proc/loadavg | cut -d " " -f 1-3)',
+        \ 'y': ['%b %d', '%R'],
+        \ 'z': '#H'}
 
