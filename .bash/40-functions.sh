@@ -13,6 +13,11 @@ pacsize() {
     done | sort -n
 }
 
+mcd() {
+    mkdir $1
+    cd $1
+}
+
 colors() {
     local fgc bgc vals seq0
 
@@ -40,9 +45,3 @@ colors() {
     done
 }
 
-function mcd() {
-    mkdir -p $1
-    cd $1
-}
-
-# vim: filetype=sh

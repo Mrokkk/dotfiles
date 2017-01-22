@@ -26,12 +26,12 @@ else
     PWD_COLOR=$BLUE
 fi
 
-__PROMPT="$BOLD$USER_COLOR\u@\H$RESET:$PWD_COLOR[\w]$RESET"
+__PROMPT="$PWD_COLOR\w$RESET"
 
 __PROMPT_END=" \$ "
 
-if [ -f $HOME/.git-prompt ]; then
-    . $HOME/.git-prompt
+if [ -f ~/.bash.d/git-prompt ]; then
+    . ~/.bash.d/git-prompt
     GIT_PS1_SHOWDIRTYSTATE=1
     GIT_PS1_SHOWCOLORHINTS=1
     GIT_PS1_DESCRIBE_STYLE="branch"
@@ -42,4 +42,3 @@ else
     PROMPT_COMMAND=
 fi
 
-# vim: filetype=sh
