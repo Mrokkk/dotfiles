@@ -65,12 +65,13 @@ if has('persistent_undo')
 endif
 
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.fzf
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Konfekt/FastFold'
 Bundle 'Konfekt/FoldText'
-Bundle 'Yggdroot/indentLine'
+"Bundle 'Yggdroot/indentLine' " was fucking slow
 Bundle 'sjl/gundo.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'vim-airline/vim-airline'
@@ -86,8 +87,13 @@ Bundle 'honza/vim-snippets'
 Bundle 'mileszs/ack.vim'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'digitaltoad/vim-pug'
+Bundle 'junegunn/limelight.vim'
+Bundle 'idanarye/vim-dutyl'
 call vundle#end()
-
+call dutyl#register#tool('dcd-client','/usr/bin/dcd-client')
+call dutyl#register#tool('dcd-server','/usr/bin/dcd-server')
+call dutyl#register#tool('dub','/usr/bin/dub')
 colorscheme railscasts
 
 let NERDTreeShowHidden = 0
@@ -128,6 +134,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 let g:ycm_server_python_interpreter = "/usr/bin/python3"
 set completeopt-=preview
 nnoremap <Leader>g :YcmCompleter GoTo<CR>
+set completefunc=dutyl#dComplete
 
 " don't show tildes
 hi NonText ctermfg=bg
@@ -145,3 +152,11 @@ let g:tmuxline_preset = {
         \ 'z': '#H',
         \ 'options' : {'status-justify' : 'left'}}
 
+autocmd BufNewFile,BufReadPost *.dt set filetype=pug
+
+let g:fzf_layout = { 'down': '~30%' }
+nmap <Leader>. :FZF<CR>
+
+nmap <Leader>; :Limelight!!<CR>
+
+let g:dutyl_stdImportPaths = ['/usr/include/dlang/dmd']
