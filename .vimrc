@@ -90,6 +90,7 @@ Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'digitaltoad/vim-pug'
 Bundle 'junegunn/limelight.vim'
 Bundle 'idanarye/vim-dutyl'
+Bundle 'junegunn/fzf.vim'
 call vundle#end()
 call dutyl#register#tool('dcd-client','/usr/bin/dcd-client')
 call dutyl#register#tool('dcd-server','/usr/bin/dcd-server')
