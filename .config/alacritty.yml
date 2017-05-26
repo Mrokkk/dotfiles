@@ -43,12 +43,18 @@ font:
 # Should display the render timer
 render_timer: false
 
+custom_cursor_colors: true
+
 # Colors (Tomorrow Night Bright)
 colors:
   # Default colors
   primary:
     background: '0x121212'
     foreground: '0xc8c8c8'
+
+  cursor:
+    background: '0xcccccc'
+    foreground: '0x121212'
 
   # Normal colors
   normal:
