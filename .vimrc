@@ -12,6 +12,7 @@ nmap <F4> :setlocal spell! spelllang=en_us<CR>
 nmap <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc<CR>
 nmap <C-\> :s/$/;/gc<CR>y
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
 set pastetoggle=<Leader>p
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
@@ -33,7 +34,7 @@ set nowrap
 set cursorline
 set softtabstop=4
 set laststatus=2
-set timeoutlen=300 ttimeoutlen=0
+set timeoutlen=400 ttimeoutlen=0
 set autoindent
 set smartindent
 set tabstop=4
@@ -71,7 +72,6 @@ Plugin 'VundleVim/Vundle.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Konfekt/FastFold'
 Bundle 'Konfekt/FoldText'
-"Bundle 'Yggdroot/indentLine' " was fucking slow
 Bundle 'sjl/gundo.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'vim-airline/vim-airline'
@@ -87,14 +87,12 @@ Bundle 'honza/vim-snippets'
 Bundle 'mileszs/ack.vim'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'skywind3000/asyncrun.vim'
 Bundle 'digitaltoad/vim-pug'
 Bundle 'junegunn/limelight.vim'
-Bundle 'idanarye/vim-dutyl'
 Bundle 'junegunn/fzf.vim'
 call vundle#end()
-call dutyl#register#tool('dcd-client','/usr/bin/dcd-client')
-call dutyl#register#tool('dcd-server','/usr/bin/dcd-server')
-call dutyl#register#tool('dub','/usr/bin/dub')
+
 colorscheme railscasts
 
 let NERDTreeShowHidden = 0
@@ -135,10 +133,10 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 let g:ycm_server_python_interpreter = "/usr/bin/python3"
 set completeopt-=preview
 nnoremap <Leader>g :YcmCompleter GoTo<CR>
-set completefunc=dutyl#dComplete
 
 " don't show tildes
 hi NonText ctermfg=bg
+hi NonText guifg=bg
 
 let g:UltiSnipsExpandTrigger="<c-a>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -153,11 +151,9 @@ let g:tmuxline_preset = {
         \ 'z': '#H',
         \ 'options' : {'status-justify' : 'left'}}
 
-autocmd BufNewFile,BufReadPost *.dt set filetype=pug
+nmap <Leader>gci :AsyncRun git commit -am ""<left>
+noremap <Leader>gps :AsyncRun git push<CR>
 
+autocmd BufNewFile,BufReadPost *.dt set filetype=pug
 let g:fzf_layout = { 'down': '~30%' }
 nmap <Leader>. :FZF<CR>
-
-nmap <Leader>; :Limelight!!<CR>
-
-let g:dutyl_stdImportPaths = ['/usr/include/dlang/dmd']
