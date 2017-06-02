@@ -14,8 +14,12 @@ pacsize() {
 }
 
 mcd() {
-    mkdir -p ${1}
-    cd ${1}
+    mkdir $1
+    cd $1
+}
+
+unset_proxy() {
+    unset ftp_proxy && unset http_proxy && unset https_proxy
 }
 
 colors() {

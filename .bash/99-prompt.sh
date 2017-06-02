@@ -30,8 +30,8 @@ __PROMPT="$PWD_COLOR\w$RESET"
 
 __PROMPT_END=" \$ "
 
-if [ -f ~/.bash.d/git-prompt ]; then
-    . ~/.bash.d/git-prompt
+if [ -f ~/.bash/git-prompt ]; then
+    . ~/.bash/git-prompt
     GIT_PS1_SHOWDIRTYSTATE=1
     GIT_PS1_SHOWCOLORHINTS=1
     GIT_PS1_DESCRIBE_STYLE="branch"
