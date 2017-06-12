@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char font[] = "Hack:size=10:antialias=true:autohint=false";
-static int borderpx = 2;
+char font[] = "Hack:pixelsize=13:antialias=true:autohint=false";
+int borderpx = 2;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -16,54 +16,54 @@ static int borderpx = 2;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char shell[] = "/bin/bash";
-static char *utmp = NULL;
-static char stty_args[] = "stty raw pass8 nl -echo -iexten -cstopb 38400";
+char shell[] = "/bin/bash";
+char *utmp = NULL;
+char stty_args[] = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
 /* identification sequence returned in DA and DECID */
-static char vtiden[] = "\033[?6c";
+char vtiden[] = "\033[?6c";
 
 /* Kerning / character bounding-box multipliers */
-static float cwscale = 1.0;
-static float chscale = 1.0;
+float cwscale = 1.0;
+float chscale = 1.0;
 
 /*
  * word delimiter string
  *
  * More advanced example: " `'\"()[]{}"
  */
-static char worddelimiters[] = " ";
+char worddelimiters[] = " ";
 
 /* selection timeouts (in milliseconds) */
-static unsigned int doubleclicktimeout = 300;
-static unsigned int tripleclicktimeout = 600;
+unsigned int doubleclicktimeout = 300;
+unsigned int tripleclicktimeout = 600;
 
 /* alt screens */
-static int allowaltscreen = 1;
+int allowaltscreen = 1;
 
 /* frames per second st should at maximum draw to the screen */
-static unsigned int xfps = 120;
-static unsigned int actionfps = 30;
+unsigned int xfps = 120;
+unsigned int actionfps = 30;
 
 /*
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
  * attribute.
  */
-static unsigned int blinktimeout = 1000;
+unsigned int blinktimeout = 1000;
 
 /*
  * thickness of underline and bar cursors
  */
-static unsigned int cursorthickness = 2;
+unsigned int cursorthickness = 2;
 
 /*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling
  * it
  */
-static int bellvolume = 0;
+int bellvolume = 0;
 
 /* default TERM value */
-static char termname[] = "st-256color";
+char termname[] = "st-256color";
 
 /*
  * spaces per tab
@@ -80,10 +80,10 @@ static char termname[] = "st-256color";
  *
  *  stty tabs
  */
-static unsigned int tabspaces = 8;
+unsigned int tabspaces = 8;
 
 /* Terminal colors (16 first used in escape sequence) */
-static const char *colorname[] = {
+const char *colorname[] = {
     /* 8 normal colors */
     "#1d1f21",
     "#c82829",
@@ -118,10 +118,10 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-static unsigned int defaultfg = 258;
-static unsigned int defaultbg = 259;
-static unsigned int defaultcs = 258;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 258;
+unsigned int defaultbg = 259;
+unsigned int defaultcs = 258;
+unsigned int defaultrcs = 257;
 
 /*
  * Default shape of cursor
@@ -130,33 +130,33 @@ static unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 2;
+unsigned int cursorshape = 2;
 
 /*
  * Default columns and rows numbers
  */
 
-static unsigned int cols = 80;
-static unsigned int rows = 24;
+unsigned int cols = 80;
+unsigned int rows = 24;
 
 /*
  * Default colour and shape of the mouse cursor
  */
-static unsigned int mouseshape = XC_xterm;
-static unsigned int mousefg = 7;
-static unsigned int mousebg = 0;
+unsigned int mouseshape = XC_xterm;
+unsigned int mousefg = 7;
+unsigned int mousebg = 0;
 
 /*
  * Color used to display font attributes when fontconfig selected a font which
  * doesn't match the ones requested.
  */
-static unsigned int defaultattr = 11;
+unsigned int defaultattr = 11;
 
 /*
  * Internal mouse shortcuts.
  * Beware that overloading Button1 will disable the selection.
  */
-static MouseShortcut mshortcuts[] = {
+MouseShortcut mshortcuts[] = {
     /* button               mask            string */
     { Button4,              XK_ANY_MOD,     "\031" },
     { Button5,              XK_ANY_MOD,     "\005" },
@@ -165,7 +165,7 @@ static MouseShortcut mshortcuts[] = {
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
 
-static Shortcut shortcuts[] = {
+Shortcut shortcuts[] = {
     /* mask                 keysym          function        argument */
     { ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
     { MODKEY|ShiftMask,     XK_Insert,      clippaste,      {.i =  0} },
@@ -202,26 +202,26 @@ static Shortcut shortcuts[] = {
  * If you want keys other than the X11 function keys (0xFD00 - 0xFFFF)
  * to be mapped below, add them to this array.
  */
-static KeySym mappedkeys[] = { -1 };
+KeySym mappedkeys[] = { -1 };
 
 /*
  * State bits to ignore when matching key or button events.  By default,
  * numlock (Mod2Mask) and keyboard layout (XK_SWITCH_MOD) are ignored.
  */
-static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
+uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
 
 /*
  * Override mouse-select while mask is active (when MODE_MOUSE is set).
  * Note that if you want to use ShiftMask with selmasks, set this to an other
  * modifier, set to 0 to not use it.
  */
-static uint forceselmod = ShiftMask;
+uint forceselmod = ShiftMask;
 
 /*
  * This is the huge key array which defines all compatibility to the Linux
  * world. Please decide about changes wisely.
  */
-static Key key[] = {
+Key key[] = {
     /* keysym           mask            string      appkey appcursor crlf */
     { XK_KP_Home,       ShiftMask,      "\033[2J",       0,   -1,    0},
     { XK_KP_Home,       ShiftMask,      "\033[1;2H",     0,   +1,    0},
@@ -444,7 +444,7 @@ static Key key[] = {
  * ButtonRelease and MotionNotify.
  * If no match is found, regular selection is used.
  */
-static uint selmasks[] = {
+uint selmasks[] = {
     [SEL_RECTANGULAR] = Mod1Mask,
 };
 
@@ -452,7 +452,7 @@ static uint selmasks[] = {
  * Printable characters in ASCII, used to estimate the advance width
  * of single wide characters.
  */
-static char ascii_printable[] =
+char ascii_printable[] =
     " !\"#$%&'()*+,-./0123456789:;<=>?"
     "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
     "`abcdefghijklmnopqrstuvwxyz{|}~";
