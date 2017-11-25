@@ -10,10 +10,10 @@ nmap <Leader>rc :tabnew<CR>:e ~/.vimrc<CR>
 nmap <Leader>s :source %<CR>
 nmap <F4> :setlocal spell! spelllang=en_us<CR>
 nmap <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc<CR>
-nmap <C-\> :s/$/;/gc<CR>y
+nmap <C-\> :s/$/;/gc<CR>y$
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
-noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
 set pastetoggle=<Leader>p
+vnoremap <Leader>y :w !xclip -selection clipboard<CR><CR>
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set list
@@ -34,7 +34,7 @@ set nowrap
 set cursorline
 set softtabstop=4
 set laststatus=2
-set timeoutlen=400 ttimeoutlen=0
+set timeoutlen=300 ttimeoutlen=0
 set autoindent
 set smartindent
 set tabstop=4
@@ -87,7 +87,6 @@ Bundle 'honza/vim-snippets'
 Bundle 'mileszs/ack.vim'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'ctrlpvim/ctrlp.vim'
-Bundle 'skywind3000/asyncrun.vim'
 Bundle 'digitaltoad/vim-pug'
 Bundle 'junegunn/limelight.vim'
 Bundle 'junegunn/fzf.vim'
@@ -136,7 +135,6 @@ nnoremap <Leader>g :YcmCompleter GoTo<CR>
 
 " don't show tildes
 hi NonText ctermfg=bg
-hi NonText guifg=bg
 
 let g:UltiSnipsExpandTrigger="<c-a>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -151,9 +149,9 @@ let g:tmuxline_preset = {
         \ 'z': '#H',
         \ 'options' : {'status-justify' : 'left'}}
 
-nmap <Leader>gci :AsyncRun git commit -am ""<left>
-noremap <Leader>gps :AsyncRun git push<CR>
-
 autocmd BufNewFile,BufReadPost *.dt set filetype=pug
+
 let g:fzf_layout = { 'down': '~30%' }
 nmap <Leader>. :FZF<CR>
+nmap <Leader>; :Limelight!!<CR>
+
