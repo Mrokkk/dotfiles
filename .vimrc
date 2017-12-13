@@ -14,6 +14,7 @@ nmap <C-\> :s/$/;/gc<CR>y
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
 set pastetoggle=<Leader>p
+vmap <Leader>y :w !xclip -selection clipboard<CR><CR>
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set list
