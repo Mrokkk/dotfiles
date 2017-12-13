@@ -12,6 +12,7 @@ nmap <F4> :setlocal spell! spelllang=en_us<CR>
 nmap <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc<CR>
 nmap <C-\> :s/$/;/gc<CR>y
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <C-R> "hy:%s/\<<C-r>h\>//gc<left><left><left>
 noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
 set pastetoggle=<Leader>p
 vmap <Leader>y :w !xclip -selection clipboard<CR><CR>
