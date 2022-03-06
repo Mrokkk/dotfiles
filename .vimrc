@@ -90,11 +90,9 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'Konfekt/FastFold'
 Bundle 'Konfekt/FoldText'
 Bundle 'sjl/gundo.vim'
-Bundle 'Valloric/YouCompleteMe'
 Bundle 'vim-airline/vim-airline'
 Bundle 'jpo/vim-railscasts-theme'
 Bundle 'vim-airline/vim-airline-themes'
-Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'MarcWeber/vim-addon-mw-utils'
@@ -107,6 +105,7 @@ Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'digitaltoad/vim-pug'
 Bundle 'junegunn/limelight.vim'
 Bundle 'junegunn/fzf.vim'
+Bundle 'maralla/completor.vim'
 call vundle#end()
 
 colorscheme railscasts
@@ -142,10 +141,8 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline_theme = 'simple'
 
-" Ycm config
-let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-let g:ycm_server_python_interpreter = "/usr/bin/python3"
-set completeopt-=preview
+" Completer config
+let g:completor_clang_binary='/usr/bin/clang'
 
 " Vim snippets
 let g:UltiSnipsExpandTrigger="<c-a>"
@@ -159,18 +156,6 @@ autocmd BufNewFile,BufReadPost *.dt set filetype=pug
 hi NonText ctermfg=bg
 
 let g:fzf_layout = { 'down': '~30%' }
-
-function! s:SvnBlame()
-   let cmdline = "svn blame " . bufname("%")
-   let nline = line(".") + 1
-   botright new
-   setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-   silent execute "$read !" . cmdline
-   setlocal nomodifiable
-   execute "normal " . nline . "gg"
-   execute "set filetype=cpp"
-endfunction
-command! -nargs=* Blame call s:SvnBlame()
 
 let g:tmuxline_preset = {
         \ 'a': '#S',
