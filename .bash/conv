@@ -1,0 +1,74 @@
+#!/bin/env python3
+
+import re
+import sys
+import argparse
+from typing import List
+
+
+def dec_print(value : int) -> None:
+    print(f'Dec: {value}')
+
+
+def hex_print(value : int) -> None:
+    print(f'Hex: {hex(value)}')
+
+
+def oct_print(value : int) -> None:
+    print(f'Oct: {oct(value).replace("0o", "0")}')
+
+
+def bits_get(value) -> List[str]:
+    bits : List[str] = []
+    for bit in range(0, 64):
+        if 1 << bit & value:
+            bits.append(str(bit))
+    return bits
+
+
+def bit_print(value : int) -> None:
+    print(f'Bit: {bin(value)}, bits={{{", ".join(bits_get(value))}}}')
+
+
+def args_parse() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('value')
+    return parser.parse_args()
+
+
+def int_get(string : str) -> int:
+    length = len(string)
+
+    dec_pattern = re.compile('^[0-9]+$')
+    hex_pattern = re.compile(r'^(0x|0X)?[0-9a-fA-F]+$')
+    bit_pattern = re.compile(r'^(0b|0B)?[01]+$')
+
+    try:
+        if re.match(dec_pattern, string): return int(string, 10)
+        elif re.match(bit_pattern, string): return int(string, 2)
+        elif re.match(hex_pattern, string): return int(string, 16)
+        elif string.startswith('0'): return int(string, 8)
+        else: return int(string, 10)
+    except:
+        print(f'Incorrect number: {string}')
+        sys.exit(1)
+
+
+printers = [
+    dec_print,
+    hex_print,
+    oct_print,
+    bit_print,
+]
+
+
+def main() -> None:
+    args = args_parse()
+    value = int_get(args.value)
+
+    for printer in printers:
+        printer(value)
+
+
+if __name__ == '__main__':
+    main()

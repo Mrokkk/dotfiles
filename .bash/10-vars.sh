@@ -1,10 +1,16 @@
 export PAGER="less"
 export EDITOR="vim"
+export MANPAGER="sh -c 'col -bx | bat --paging=always --theme=gruvbox-dark -l man -p'"
+export MANROFFOPT="-c"
 export LESSCHARSET="utf-8"
-export HISTFILESIZE=
-export HISTSIZE=
+
+if [[ -n "${BASH_VERSION}" ]]
+then
+    export HISTFILESIZE=
+    export HISTSIZE=
+fi
+
 export HISTTIMEFORMAT="[%F %T] "
 export HISTCONTROL=ignoredups
-export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
-export CCACHE_ENABLED=1
 
+export CCACHE_ENABLED=1
