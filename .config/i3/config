@@ -16,7 +16,7 @@ workspace_layout tabbed
 bindsym $mod+d exec --no-startup-id "rofi -modi run,filebrowser,window  -show run -location 1 -font 'Hack 9' -theme android_notification"
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id st
+bindsym $mod+Return exec --no-startup-id alacritty
 
 # open a filemanager
 bindsym $mod+t exec --no-startup-id pcmanfm
@@ -136,11 +136,11 @@ bar {
     status_command i3blocks
 
     colors {
-        background #1B1E1F
+        background #282828
         statusline #d4e2da
 
         # class            border  backgr  text
-        focused_workspace  #4f816e #3b6155 #d4e2da
+        focused_workspace  #a9b665 #a9b665 #282828
         inactive_workspace #242424 #242424 #A48E6D
         active_workspace   #545454 #202020 #ffffff
         urgent_workspace   #545454 #202020 #ffffff
@@ -151,7 +151,7 @@ bar {
 }
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #4f816e #3b6155 #d4e2da #FD9D0D
+client.focused          #7b854a #444a29 #d4e2da #FD9D0D
 client.focused_inactive #242424 #242424 #A48E6D #FD9D0D
 client.unfocused        #242424 #242424 #A48E6D #FD9D0D
 client.urgent           #ff8000 #ff8000 #ff0000 #900000
@@ -167,9 +167,11 @@ for_window [class="Chromium-browser"] move to workspace 1
 # Startup
 #exec --no-startup-id sleep 2 && ~/.screenlayout/dual.sh
 exec --no-startup-id nm-applet
+exec --no-startup-id picom
 exec --no-startup-id ~/repos/blocklet-server/blocklet-server
-exec --no-startup-id hsetroot -solid \#121212
-exec --no-startup-id setxkbmap pl
+exec --no-startup-id hsetroot -solid \#282828
 exec --no-startup-id dunst
 exec --no-startup-id xfce4-clipman
-exec --no-startup-id i3-msg 'workspace 2; exec st tmux'
+exec --no-startup-id i3-msg 'workspace 2; exec alacritty -e tmux'
+exec --no-startup-id redshift -O 4000
+exec --no-startup-id setxkbmap pl
