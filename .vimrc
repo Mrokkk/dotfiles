@@ -119,7 +119,11 @@ set background=dark
 let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_better_performance = 1
 let g:gruvbox_material_disable_italic_comment = 1
-colorscheme gruvbox-material
+
+try
+    colorscheme gruvbox-material
+catch
+endtry
 
 hi NonText ctermfg=bg " don't show tildes
 

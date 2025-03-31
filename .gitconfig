@@ -1,0 +1,17 @@
+[core]
+    pager = delta
+
+[delta]
+    features = gruvmax-fang
+    side-by-side = true
+    navigate = true
+    dark = true
+
+[interactive]
+    diffFilter = delta --color-only
+
+[alias]
+    st = status
+    co = checkout
+    ci = commit
+    cia = commit --amend
