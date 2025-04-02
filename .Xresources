@@ -8,3 +8,4 @@ rofi.location: 1
 rofi.width: 15
 rofi.lines: 30
 rofi.font: Hack 10
+Xft.dpi: 120

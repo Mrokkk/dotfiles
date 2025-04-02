@@ -32,6 +32,7 @@ pacman -S \
     alsa-utils \
     arandr \
     bat \
+    cantarell-fonts \
     chromium \
     cifs-utils \
     clang \
@@ -48,6 +49,7 @@ pacman -S \
     git \
     git-delta \
     gnome-themes-extra \
+    gnu-free-fonts \
     grub \
     gsimplecal \
     gtk-engine-murrine \
@@ -57,6 +59,7 @@ pacman -S \
     htop \
     i3-wm \
     i3blocks \
+    i3lock \
     intel-gpu-tools \
     jre8-openjdk \
     libva \
@@ -90,6 +93,8 @@ pacman -S \
     sudo \
     tmux \
     ttf-hack \
+    ttf-liberation \
+    unzip \
     vi \
     vim \
     vlc \
@@ -102,9 +107,12 @@ pacman -S \
     xfce4-clipman-plugin \
     xfce4-screenshooter \
     xorg \
+    xorg-fonts-100dpi \
+    xorg-fonts-75dpi \
     xorg-xinit \
-    xterm \ 
-    zsh || die "packages installation failed"
+    xterm \
+    zsh \
+    zsh-completions || die "packages installation failed"
 
 systemctl enable ly
 systemctl enable NetworkManager
@@ -112,16 +120,15 @@ systemctl enable NetworkManager
 cp "${base_dir}/xorg.conf" /etc/X11/xorg.conf
 cp "${base_dir}/rofi-logout" /sbin
 
+groupadd wheel
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/00-wheel
+
 useradd -m "${user}"
 echo "Setting ${user} password"
 passwd "${user}"
-groupadd wheel
 gpasswd -a "${user}" wheel
 gpasswd -a "${user}" video
 gpasswd -a "${user}" tty
 usermod -s /bin/zsh "${user}"
 
 su "${user}" -c "sh user_install.sh"
-
-echo "Installation finished. Perform following configuration manually:"
-echo "visudo # and uncomment wheel line"
