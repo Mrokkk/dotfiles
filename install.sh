@@ -32,15 +32,18 @@ pacman -S \
     alsa-utils \
     arandr \
     bat \
+    bubblewrap \
     cantarell-fonts \
     chromium \
     cifs-utils \
     clang \
     cloc \
+    debugedit \
     dmd \
     dmidecode \
     dub \
     dunst \
+    fakeroot \
     firefox \
     fwupd \
     fzf \
@@ -78,16 +81,19 @@ pacman -S \
     ninja \
     nmap \
     pavucontrol \
+    pciutils \
     pcmanfm \
     picom \
     pulseaudio \
     pulseaudio-alsa \
     python \
+    python-lsp-server \
     redshift \
     refind \
     renderdoc \
     rofi \
     rsync \
+    rust \
     strace \
     stress \
     sudo \
@@ -95,6 +101,7 @@ pacman -S \
     ttf-hack \
     ttf-liberation \
     unzip \
+    usbutils \
     vi \
     vim \
     vlc \

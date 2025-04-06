@@ -24,6 +24,9 @@ cp dotfiles/.xinitrc ~
 cp -r dotfiles/.config ~
 cp -r dotfiles/.bash ~
 
+mkdir -p ~/.config/alacritty/themes
+git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+
 wget -O /tmp/ohmyzsh-install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 sed -i "s/.*exec zsh.*//g" /tmp/ohmyzsh-install.sh
 sh /tmp/ohmyzsh-install.sh
@@ -37,11 +40,3 @@ vim +BundleInstall +qall
 pushd blocklet-server
 dub build
 popd
-
-pushd rua
-makepkg
-sudo pacman -U rua-*.pkg.tar.zst
-popd
-
-rua install gruvbox-material-gtk-theme-git
-rua install gruvbox-material-icon-theme-git

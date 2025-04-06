@@ -12,9 +12,6 @@ nmap <Leader>rc :tabnew<CR>:e ~/.vimrc<CR>
 " Camel case to Pascal case
 nmap <F5> :%s/\(\l\)\(\u\)/\1\_\l\2/gc<CR>
 
-" Add a semicolon and the line's end
-nmap <C-\> :s/$/;/gc<CR>y$
-
 " Sort lines
 nmap <Leader>x {l<C-v>}h:sort u<CR>
 
@@ -247,6 +244,7 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
     inoremap <buffer> . .<C-x><C-o>
     inoremap <buffer> -> -><C-x><C-o>
+    inoremap <C-@> <C-x><C-o>
 endfunction
 
 augroup lsp_install
@@ -270,12 +268,6 @@ function! CompleteInf()
 
     let l:retval = fzf#vim#complete(fzf#wrap({'prefix': prefix, 'source': nl, 'reducer': { lines -> split(lines[0], '\zs : ')[0] }}))
     return retval
-endfunction
-
-function! SortLines() range
-    execute a:firstline . "," . a:lastline . 's/^\(.*\)$/\=strdisplaywidth( submatch(0) ) . " " . submatch(0)/'
-    execute a:firstline . "," . a:lastline . 'sort n'
-    execute a:firstline . "," . a:lastline . 's/^\d\+\s//'
 endfunction
 
 inoremap <expr><c-l> CompleteInf()
