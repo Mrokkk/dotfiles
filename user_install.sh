@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 mkdir -p ~/repos
 mkdir -p ~/.tmux
 
@@ -7,9 +9,14 @@ cd ~/repos
 
 git clone https://github.com/Mrokkk/dotfiles.git
 git clone https://github.com/Mrokkk/blocklet-server.git
+git clone https://github.com/Mrokkk/player.git
+git clone https://aur.archlinux.org/rua.git
+git clone https://aur.archlinux.org/python-pytaglib.git
+git clone https://aur.archlinux.org/gruvbox-material-theme-git.git
+git clone https://gitlab.archlinux.org/archlinux/packaging/packages/taglib.git
+
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-git clone https://aur.archlinux.org/rua.git
 
 cp dotfiles/.Xresources ~
 cp dotfiles/.bashrc ~
