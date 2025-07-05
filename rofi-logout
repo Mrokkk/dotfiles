@@ -45,7 +45,7 @@ function print_menu()
 # show rofi
 function start()
 {
-    print_menu | rofi -dmenu -auto-select -p "logout:"  -font 'Hack 9' -theme android_notification -location 1
+    print_menu | rofi -dmenu -auto-select -p "logout:" -theme gruvbox -location 1
 }
 
 # run it

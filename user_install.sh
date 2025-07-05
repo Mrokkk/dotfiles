@@ -31,6 +31,9 @@ cp dotfiles/.xinitrc ~
 cp -r dotfiles/.config ~
 cp -r dotfiles/.bash ~
 
+mkdir -p ~/.local/share/rofi/themes
+cp dotfiles/gruvbox.rasi ~/.local/share/rofi/themes
+
 mkdir -p ~/.config/alacritty/themes
 git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 
