@@ -13,6 +13,7 @@ git clone https://github.com/Mrokkk/player.git
 git clone https://aur.archlinux.org/rua.git
 git clone https://aur.archlinux.org/python-pytaglib.git
 git clone https://aur.archlinux.org/gruvbox-material-theme-git.git
+git clone https://aur.archlinux.org/qman.git
 git clone https://gitlab.archlinux.org/archlinux/packaging/packages/taglib.git
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

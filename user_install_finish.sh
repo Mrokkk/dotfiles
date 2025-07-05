@@ -30,4 +30,9 @@ makepkg --syncdeps --rmdeps
 sudo pacman -U python-pytaglib-*.tar.zst
 popd
 
+pushd qman
+makepkg --syncdeps --rmdeps
+sudo pacman -U qman-*.tar.zst
+popd
+
 rm -rf "${BUILDDIR}"
