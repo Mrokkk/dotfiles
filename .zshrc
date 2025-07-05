@@ -75,7 +75,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(history)
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colorize command-not-found zsh-autosuggestions vundle zsh-interactive-cd)
+plugins=(git colorize command-not-found zsh-autosuggestions vundle zsh-interactive-cd dircycle python)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -84,7 +84,7 @@ do
     source $file
 done
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+command -v fzf &>/dev/null && source <(fzf --zsh)
 
 bindkey '^ ' autosuggest-accept
 # bindkey '' autosuggest-execute
