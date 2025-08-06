@@ -28,6 +28,7 @@ nmap <Leader>e :NERDTreeToggle<CR>
 nmap <Leader>f :NERDTreeFind<CR>
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+set fillchars+=vert:│
 set list
 set ttyfast
 set nocompatible
