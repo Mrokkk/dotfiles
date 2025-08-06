@@ -9,3 +9,14 @@ rofi.width: 15
 rofi.lines: 30
 rofi.font: Hack 10
 Xft.dpi: 120
+
+! xterm
+XTerm.termName: xterm-256color
+XTerm.vt100.reverseVideo: false
+XTerm.vt100.backarrowKey: false
+XTerm.ttyModes: erase ^?
+XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.faceName: Hack:size=10:antialias=true
+XTerm.vt100.font: 7x13
+XTerm.vt100.foreground: rgb:c8/c8/c8
+XTerm.vt100.background: rgb:28/28/28
