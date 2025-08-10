@@ -53,3 +53,5 @@ rm -rf blocklet-server* pkg src
 popd
 
 rm -rf "${BUILDDIR}"
+
+firecfg --fix

@@ -22,6 +22,9 @@ then
     die "Script must be run as root!"
 fi
 
+mkdir -p /etc/pacman.d/hooks
+cp "${base_dir}/firejail-permissions.hook" /etc/pacman.d/hooks/
+
 pacman -S \
     --needed \
     7zip \
@@ -150,6 +153,7 @@ passwd "${user}"
 gpasswd -a "${user}" wheel
 gpasswd -a "${user}" video
 gpasswd -a "${user}" tty
+gpasswd -a "${user}" firejail
 usermod -s /bin/zsh "${user}"
 
 su "${user}" -c "sh user_install.sh"
