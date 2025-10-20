@@ -115,6 +115,7 @@ pacman -S \
     vi \
     vim \
     vlc \
+    vlc-plugins-all \
     vulkan-extra-layers \
     vulkan-extra-tools \
     vulkan-headers \
