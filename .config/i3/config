@@ -133,7 +133,7 @@ bindsym $mod+r mode "resize"
 font pango:Hack 9
 
 bar {
-    status_command i3blocks
+    status_command blocklet-server
 
     colors {
         background #282828
