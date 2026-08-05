@@ -28,7 +28,6 @@ nmap <Leader>e :NERDTreeToggle<CR>
 nmap <Leader>f :NERDTreeFind<CR>
 
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
-set fillchars+=vert:│
 set list
 set ttyfast
 set nocompatible
@@ -83,30 +82,31 @@ set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'Konfekt/FastFold'
-Bundle 'Konfekt/FoldText'
-Bundle 'sjl/gundo.vim'
-Bundle 'vim-airline/vim-airline'
-Bundle 'jpo/vim-railscasts-theme'
-Bundle 'vim-airline/vim-airline-themes'
-Bundle 'sainnhe/gruvbox-material'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'SirVer/ultisnips'
-Bundle 'honza/vim-snippets'
-Bundle 'mileszs/ack.vim'
-Bundle 'edkolev/tmuxline.vim'
-Bundle 'ctrlpvim/ctrlp.vim'
-Bundle 'digitaltoad/vim-pug'
-Bundle 'junegunn/limelight.vim'
-Bundle 'junegunn/fzf.vim'
-Bundle 'junegunn/vim-easy-align'
-Bundle 'bfrg/vim-cpp-modern'
-Bundle 'prabirshrestha/vim-lsp'
-Bundle 'mg979/vim-visual-multi'
-Bundle 'vim-scripts/AnsiEsc.vim'
+Bundle 'preservim/nerdtree', {'v': '690d061b591525890f1471c6675bcb5bdc8cdff9'}
+Bundle 'Konfekt/FastFold', {'v': 'fff6d05064dec4d7e1398aa507db35fcd57edfb4'}
+Bundle 'Konfekt/FoldText', {'v': 'bb17060d3373b63fc5b127136c10b6d1616ebcd9'}
+Bundle 'sjl/gundo.vim', {'v': 'c5efef192b975b8e7d5fa3c6db932648d3b76323'}
+Bundle 'vim-airline/vim-airline', {'v': '45003f9451d8038064ffe804cf8e8eb0f6a20210'}
+Bundle 'vim-airline/vim-airline-themes', {'v': 'cda3b5ea087f7e301a3d4e61727108f66ba6dd20'}
+Bundle 'jpo/vim-railscasts-theme', {'v': '826e17cc7a7fdc1aef16b9ddfaf271b51fc2e0a8'}
+Bundle 'sainnhe/gruvbox-material', {'v': 'f5f912fbc7cf2d45da6928b792d554f85c7aa89a'}
+Bundle 'preservim/nerdcommenter', {'v': 'a462bbda1e26f44fb3d3eb9d9d1c6a07aa98e665'}
+Bundle 'MarcWeber/vim-addon-mw-utils', {'v': '6aaf4fee472db7cbec6d2c8eea69fdf3a8f8a75d'}
+Bundle 'tomtom/tlib_vim', {'v': 'd3bdad7b5e4253dc7ce6793342d7b8755c67ff0c'}
+Bundle 'SirVer/ultisnips', {'v': 'dbc458e110bb49299da76ec53f8b09b4f6dce28a'}
+Bundle 'honza/vim-snippets', {'v': 'dbc458e110bb49299da76ec53f8b09b4f6dce28a'}
+Bundle 'mileszs/ack.vim', {'v': '36e40f9ec91bdbf6f1adf408522a73a6925c3042'}
+Bundle 'edkolev/tmuxline.vim', {'v': '4119c553923212cc67f4e135e6f946dc3ec0a4d6'}
+Bundle 'ctrlpvim/ctrlp.vim', {'v': '475a864e7f01dfc5c93965778417cc66e77f3dcc'}
+Bundle 'digitaltoad/vim-pug', {'v': 'ea39cd942cf3194230cf72bfb838901a5344d3b3'}
+Bundle 'junegunn/limelight.vim', {'v': '0c8cc7f503a775c505dc9c67f1f5041ab4d5f1fd'}
+Bundle 'junegunn/fzf.vim', {'v': '3cb44a8ba588e1ada409af495bdc6a4d2d37d5da'}
+Bundle 'junegunn/vim-easy-align', {'v': '9815a55dbcd817784458df7a18acacc6f82b1241'}
+Bundle 'bfrg/vim-cpp-modern', {'v': '850561ee5b2a600cd00efcf95d85162dba988765'}
+Bundle 'prabirshrestha/async.vim', {'v': '2082d13bb195f3203d41a308b89417426a7deca1'}
+Bundle 'prabirshrestha/vim-lsp', {'v': '04428c920002ac7cfacbecacb070a8af57b455d0'}
+Bundle 'mg979/vim-visual-multi', {'v': 'a6975e7c1ee157615bbc80fc25e4392f71c344d4'}
+Bundle 'vim-scripts/AnsiEsc.vim', {'v': 'd2bb7878622e4c16203acf1c92a0f4bc7ac58003'}
 call vundle#end()
 
 if has('termguicolors')
@@ -173,12 +173,15 @@ let g:tmuxline_preset = {
     \ 'options' : {'status-justify' : 'left'}}
 
 let g:lsp_document_highlight_enabled = 0
-let g:lsp_semantic_enabled = 1
+"let g:lsp_semantic_enabled = 1
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_float_cursor = 0
-let g:lsp_diagnostics_highlights_enabled = 1
+"let g:lsp_diagnostics_highlights_enabled = 1
 let g:lsp_diagnostics_virtual_text_enabled = 0
+let g:lsp_work_done_progress_enabled = 0
+"let g:lsp_log_file = expand("~/.vim/vimlsp.log")
+"let g:lsp_log_verbose = 0
 
 set completeopt+=menu,menuone,noselect
 
@@ -187,7 +190,7 @@ if executable('clangd')
         autocmd!
         autocmd User lsp_setup call lsp#register_server({
             \ 'name': 'clangd',
-            \ 'cmd': {server_info->['clangd']},
+            \ 'cmd': {server_info->['clangd', '-j', '4']},
             \ 'whitelist': ['c', 'cpp'],
             \ 'allowlist': ['c', 'cpp'],
             \ 'semantic_highlight': {
