@@ -2,48 +2,42 @@
 
 set -e
 
+base_dir=$(dirname "$0")
+
+. "${base_dir}/utils.sh"
+
+_install_ohmyzsh()
+{
+    wget -O /tmp/ohmyzsh-install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    sed -i "s/.*exec zsh.*//g" /tmp/ohmyzsh-install.sh
+    sh /tmp/ohmyzsh-install.sh
+}
+
 mkdir -p ~/repos
 mkdir -p ~/.tmux
 
+mkdir -p ~/.local/share/rofi/themes
+mkdir -p ~/.config/alacritty
+
 cd ~/repos
 
-git clone https://github.com/Mrokkk/dotfiles.git
-git clone https://github.com/Mrokkk/blocklet-server.git
-git clone https://github.com/Mrokkk/player.git
-git clone https://aur.archlinux.org/rua.git
-git clone https://aur.archlinux.org/python-pytaglib.git
-git clone https://aur.archlinux.org/gruvbox-material-theme-git.git
-git clone https://aur.archlinux.org/qman.git
-git clone https://gitlab.archlinux.org/archlinux/packaging/packages/taglib.git
+step "clone_dotfiles"       clone https://github.com/Mrokkk/dotfiles.git
+step "clone_bloclet_server" clone https://github.com/Mrokkk/blocklet-server.git
+step "clone_player"         clone https://github.com/Mrokkk/player.git
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+step "install_tmux_tpm"     clone_revision 99469c4a9b1ccf77fade25842dc7bafbc8ce9946 https://github.com/tmux-plugins/tpm          ~/.tmux/plugins/tpm
+step "install_vim_vundle"   clone_revision 5548a1a937d4e72606520c7484cd384e6c76b565 https://github.com/VundleVim/Vundle.vim.git  ~/.vim/bundle/Vundle.vim
 
-cp dotfiles/.Xresources ~
-cp dotfiles/.bashrc ~
-cp dotfiles/.blocklets.json ~
-cp dotfiles/.gitconfig ~
-cp dotfiles/.gtkrc-2.0 ~
-cp dotfiles/.i3blocks.conf ~
-cp dotfiles/.tmux.conf ~
-cp dotfiles/.vimrc ~
-cp dotfiles/.xinitrc ~
+pushd_silent dotfiles
 
-cp -r dotfiles/.config ~
-cp -r dotfiles/.bash ~
+rsync -acq home/.* ~
 
-mkdir -p ~/.local/share/rofi/themes
-cp dotfiles/gruvbox.rasi ~/.local/share/rofi/themes
+step "install_vim_plugins"          vim +BundleInstall +qall
+step "generate_tmuxline_conf"       vim +"TmuxlineSnapshot ${HOME}/.tmux/tmuxline.conf" +qall
+step "install_alacritty_themes"     clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+step "install_ohmyzsh"              _install_ohmyzsh
+step "install_zsh_autosuggestions"  clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 
-mkdir -p ~/.config/alacritty/themes
-git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+install_to "home/.zshrc" ~
 
-wget -O /tmp/ohmyzsh-install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-sed -i "s/.*exec zsh.*//g" /tmp/ohmyzsh-install.sh
-sh /tmp/ohmyzsh-install.sh
-
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-
-cp dotfiles/.zshrc ~
-
-vim +BundleInstall +qall
+popd_silent

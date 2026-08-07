@@ -1,57 +1,42 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+
+base_dir=$(dirname "$0")
+
+. "${base_dir}/utils.sh"
 
 cd ~/repos
 
 export BUILDDIR=/tmp/makepkg
 
-pushd rua
-makepkg --syncdeps --rmdeps
-sudo pacman -U rua-[0-9]*.pkg.tar.zst
-rm -rf rua* pkg src
-popd
+cleanup()
+{
+    rm -rf "${BUILDDIR}"
+}
 
-pushd gruvbox-material-theme-git
-sed -i 's#github.com/sainnhe#github.com/Mrokkk#g' PKGBUILD
-sed -i 's/^options=.*/options=("!strip" "!debug")/g' PKGBUILD
-makepkg --syncdeps --rmdeps
-sudo pacman -U gruvbox-material-[0-9]*.tar.zst
-rm -rf gruvbox-material* pkg src
-popd
+trap cleanup EXIT
 
-pushd taglib
-sed -i '/-DBUILD_SHARED_LIBS=ON/s/$/ -DCMAKE_BUILD_TYPE=Release/' PKGBUILD
-sed -i '/--build build/s/$/ -- -j$(nproc)/' PKGBUILD
-makepkg --syncdeps --rmdeps
-sudo pacman -U taglib-[0-9]*.tar.zst
-rm -rf taglib* pkg src
-popd
+pushd_silent dotfiles
 
-pushd python-pytaglib
-makepkg --syncdeps --rmdeps
-sudo pacman -U python-pytaglib-[0-9]*.tar.zst
-rm -rf python-pytaglib* pkg src
-popd
+for pkg in aur/*
+do
+    pushd_silent "${pkg}"
+    step_name="$(basename "${pkg//-/_}")"
+    step step_name makepkg --syncdeps --noconfirm --install --clean
+    popd_silent
+done
 
-pushd qman
-makepkg --syncdeps --rmdeps
-sudo pacman -U qman-[0-9]*.tar.zst
-rm -rf qman* pkg src
-popd
+popd_silent
 
-pushd player
-makepkg --syncdeps --rmdeps
-sudo pacman -U player-[0-9]*.tar.zst
-rm -rf player* pkg src
-popd
+pushd_silent player/archlinux
+step "install_player" makepkg --syncdeps --noconfirm --install --clean
+rm -rf player*
+popd_silent
 
-pushd blocklet-server
-makepkg --syncdeps --rmdeps
-sudo pacman -U blocklet-server-[0-9]*.tar.zst
-rm -rf blocklet-server* pkg src
-popd
+pushd_silent blocklet-server/archlinux
+step "install_blocklet_server" makepkg --syncdeps --noconfirm --install --clean
+rm -rf blocklet-server*
+popd_silent
 
-rm -rf "${BUILDDIR}"
-
-firecfg --fix
+step "firecfg_fix" firecfg --fix

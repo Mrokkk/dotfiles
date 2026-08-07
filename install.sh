@@ -1,31 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
-base_dir="$(dirname $0)"
+base_dir="$(dirname "$0")"
+
+. "${base_dir}/utils.sh"
 
 user="${1}"
 
-function die()
-{
-    echo "${@}"
-    exit -1
-}
-
-if [[ -z "${user}" ]]
+if [ -z "${user}" ]
 then
     die "Username is needed"
 fi
 
-if [[ "$EUID" -ne 0 ]]
+if [ "${EUID}" -ne 0 ]
 then
     die "Script must be run as root!"
 fi
 
 mkdir -p /etc/pacman.d/hooks
-cp "${base_dir}/firejail-permissions.hook" /etc/pacman.d/hooks/
+step "install_firejail_hook" cp "${base_dir}/etc/pacman.d/firejail-permissions.hook" "/etc/pacman.d/hooks/"
 
-pacman -S \
+step "install_packages" pacman -S \
     --needed \
     7zip \
     alacritty \
@@ -60,8 +56,6 @@ pacman -S \
     gnu-free-fonts \
     grub \
     gsimplecal \
-    gtk-engine-murrine \
-    gtk-engines \
     gzip \
     hsetroot \
     htop \
@@ -91,7 +85,7 @@ pacman -S \
     pciutils \
     pcmanfm \
     picom \
-    pigar \
+    pkgconfig \
     pulseaudio \
     pulseaudio-alsa \
     python \
@@ -101,7 +95,6 @@ pacman -S \
     renderdoc \
     rofi \
     rsync \
-    rust \
     strace \
     stress \
     sudo \
@@ -131,33 +124,31 @@ pacman -S \
     xterm \
     zip \
     zsh \
-    zsh-completions || die "packages installation failed"
+    zsh-completions
 
-systemctl enable ly
-systemctl enable NetworkManager
+install_to "${base_dir}/etc/X11/xorg.conf"  "/etc/X11"
+install_to "${base_dir}/bin/rofi-logout"    "/bin"
 
-sed -i 's/^path =.*/path = null/g' /etc/ly/config.ini
+step "enable_ly"                    systemctl enable ly
+step "enable_network_manager"       systemctl enable NetworkManager
+step "fix_ly_config"                sed -i 's/^path =.*/path = null/g' /etc/ly/config.ini
+step "enable_firejail_for_firefox"  ln -s "/usr/bin/firejail" "/usr/local/bin/firefox"
+step "enable_firejail_for_chromium" ln -s "/usr/bin/firejail" "/usr/local/bin/chromium"
+step "enable_firejail_for_vlc"      ln -s "/usr/bin/firejail" "/usr/local/bin/vlc"
 
-ln -s /usr/bin/firejail /usr/local/bin/firefox
-ln -s /usr/bin/firejail /usr/local/bin/chromium
-ln -s /usr/bin/firejail /usr/local/bin/vlc
+step "groupadd_wheel"       groupadd wheel
+step "add_sudoers_wheel"    echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/00-wheel
+step "user_create"          useradd -m "${user}"
+step "user_setpasswd"       passwd "${user}"
+step "user_group_wheel"     gpasswd -a "${user}" wheel
+step "user_group_video"     gpasswd -a "${user}" video
+step "user_group_tty"       gpasswd -a "${user}" tty
+step "user_group_firejail"  gpasswd -a "${user}" firejail
+step "user_set_zsh"         usermod -s /bin/zsh "${user}"
 
-cp "${base_dir}/xorg.conf" /etc/X11/xorg.conf
-cp "${base_dir}/rofi-logout" /sbin
-
-groupadd wheel
-echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/00-wheel
-
-useradd -m "${user}"
-echo "Setting ${user} password"
-passwd "${user}"
-gpasswd -a "${user}" wheel
-gpasswd -a "${user}" video
-gpasswd -a "${user}" tty
-gpasswd -a "${user}" firejail
-usermod -s /bin/zsh "${user}"
-
+copy_cache_file_to_tmp
+cd "/home/${user}"
 su "${user}" -c "sh user_install.sh"
 
 echo "You can now reboot. On next startup run following command to finish installation"
-echo "\$ ${base_dir}/user_install_finish.sh"
+echo "\$ /home/${user}/user_install_finish.sh"
